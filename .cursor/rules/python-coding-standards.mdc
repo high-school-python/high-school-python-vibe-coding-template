@@ -1,0 +1,43 @@
+---
+description: ハイスクールPython用のPythonコーディング規約
+globs: ["src/**/*.py", "**/*.ipynb"]
+alwaysApply: true
+---
+
+# Python コーディング規約
+
+## 基本方針
+- 学習者にとって理解しやすいコードを心がける
+- PEP 8 に従い、ruffでフォーマットする
+- 型ヒントを積極的に使用する（mypy でチェック）
+
+## 命名規則
+- 変数名・関数名は英語、コメント・docstringは日本語
+- 関数名: snake_case
+- クラス名: PascalCase
+- 定数: UPPER_CASE
+
+## docstring
+```python
+def calculate_average(numbers: list[float]) -> float:
+    """数値のリストから平均値を計算します。
+    
+    Args:
+        numbers: 数値のリスト
+        
+    Returns:
+        平均値
+        
+    Examples:
+        >>> calculate_average([1, 2, 3, 4, 5])
+        3.0
+    """
+```
+
+## エラーハンドリング
+- 適切なエラーハンドリングを行うが、過度に複雑にしない
+- エラーメッセージは日本語で分かりやすく表示
+
+## 実行例の記載
+- 関数やクラスには使用例を含める
+- 出力結果も可能な限り記載する

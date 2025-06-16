@@ -1,0 +1,49 @@
+---
+description: 開発ワークフローとuv使用規則
+globs: ["pyproject.toml", "uv.lock"]
+alwaysApply: false
+---
+
+# 開発ワークフロー
+
+## パッケージ管理 (uv)
+- パッケージマネージャーは uv を使用（pip/conda は使用しない）
+- 新しいパッケージ追加: `uv add [パッケージ名]`
+- 開発用パッケージ追加: `uv add --dev [パッケージ名]`
+- 環境同期: `uv sync`
+
+## スクリプト実行
+- `uv run python -m src.hello`
+- `uv run python -m src.[モジュール名]`
+
+## コード品質チェック
+```bash
+# フォーマット
+uv run ruff format
+
+# リント
+uv run ruff check
+
+# 型チェック
+uv run mypy src/
+
+# 一括実行
+uv run ruff check && uv run ruff format && uv run mypy src/
+```
+
+## テスト実行
+- `uv run pytest`
+
+## pyproject.toml の依存関係
+- プリインストール済みライブラリ:
+  - matplotlib>=3.10.3, numpy>=2.3.0, pandas>=2.3.0
+  - scikit-learn>=1.7.0, scipy>=1.15.3
+  - streamlit>=1.45.1
+- 開発ツール（dev依存関係）も設定済み:
+  - ruff>=0.11.13, mypy>=1.16.0, pytest>=8.4.0
+- 新しい依存関係を追加する際は学習目的に適したものを選択
+- `uv add [パッケージ名]` で追加パッケージをインストール
+- `uv add --dev [パッケージ名]` で開発用パッケージをインストール
+
+## Streamlit アプリケーション実行
+- `uv run streamlit run src/[アプリファイル名].py`

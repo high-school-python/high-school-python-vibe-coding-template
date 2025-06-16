@@ -1,0 +1,43 @@
+---
+description: プロジェクト構造とファイル管理規則
+globs: ["src/**/*"]
+alwaysApply: true
+---
+
+# プロジェクト構造
+
+## 現在のディレクトリ構成
+- すべてのPythonコードは `src/` ディレクトリ内に配置
+- 現在は `src/hello.py` と `src/__init__.py` のみ
+
+## レッスンファイル作成時の構成
+- レッスン別にディレクトリを整理: `src/lesson_1/`, `src/lesson_2/`, etc.
+- 各レッスンには番号付きファイル: `1-1.py`, `1-2.py`, etc.
+- Jupyter notebook も各レッスンに含める: `lesson_1.ipynb`
+
+## ファイル作成規則
+- 新しいレッスンファイルを作成する際は、以下の命名規則に従う
+- ファイルの先頭にはdocstringでレッスンの概要を記載
+
+```python
+"""レッスン 1-1: Pythonの基本文法
+
+このファイルでは以下について学習します：
+- 変数の宣言と代入
+- 基本的なデータ型
+- 演算子の使い方
+"""
+```
+
+## プリインストール済みライブラリ
+- 科学計算: numpy, pandas, matplotlib, scikit-learn, scipy
+- Web開発: streamlit
+- インポート文は標準的な別名を使用:
+  - `import numpy as np`
+  - `import pandas as pd`
+  - `import matplotlib.pyplot as plt`
+  - `import streamlit as st`
+
+## スクリプト実行
+- `uv run python -m src.hello` でhello.pyを実行
+- `uv run python -m src.[モジュール名]` で任意のモジュールを実行
