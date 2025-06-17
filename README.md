@@ -1,128 +1,151 @@
-# high-school-python-vibe-coding-template
+# 家計簿分析ツール 💰
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
-[![Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
+[![uv](https://img.shields.io/badge/uv-package%20manager-green.svg)](https://docs.astral.sh/uv/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-dashboard-red.svg)](https://streamlit.io/)
 
-- [`ハイスクールPython`](https://high-school-python.jp) の、Python の Vibe Coding 用のテンプレートです。
-- [GitHub Repository](https://github.com/high-school-python/high-school-python-vibe-coding-template)
+Pythonを使って家計簿データを「良い感じに」グラフ化するツールです。
 
-## ディレクトリ構成
+## 🎯 機能
 
-このようなディレクトリ構成になっています
+- 📈 **月別収支トレンド**: 収入・支出・純額の推移を可視化
+- 🥧 **カテゴリ別分析**: 支出内訳を円グラフと棒グラフで表示
+- 📅 **日別支出パターン**: 移動平均付きの日々の支出トレンド
+- 🔥 **ヒートマップ**: 曜日別支出パターンの可視化
+- 📊 **統計レポート**: 貯蓄率、カテゴリ別サマリーなど
+- 🎛️ **インタラクティブダッシュボード**: フィルター機能付きのWebアプリ
 
-```sh
-high-school-python-vibe-coding-template/    # このリポジトリのルートディレクトリ
-├── .cursor/                # Cursor AI 設定ファイル
-│   └── rules/              # Cursor 用のコーディング規約
-├── .vscode/                # VSCode の設定ファイル
-├── src/                    # ソースコード (uv 環境で実行可能)
-│   ├── __init__.py         # Python パッケージファイル
-│   └── hello.py            # サンプルスクリプト
-├── CLAUDE.md               # Claude Code 用の設定ファイル
-├── LICENSE                 # MIT ライセンス
-├── README.md               # このファイル (説明書)
-├── pyproject.toml          # uv の設定ファイル
-└── uv.lock                 # 依存関係の固定ファイル
-```
+## 🚀 クイックスタート
 
-## 開発環境の構築
+### 1. 環境セットアップ
 
-### 1. uv のインストール
-
-このリポジトリでは、パッケージ管理に [uv](https://docs.astral.sh/uv/) を使用しています。まずはこちらの内容に従って、PC に uv をインストールしてください。
-
-```sh
-# Windows の場合
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-# Mac の場合
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-### 2. パッケージのインストール
-
-以下のコマンドを実行してください。すると、`pyproject.toml` に記載されているパッケージがインストールされます。仮想環境は、`.venv/` に作成されます。
-
-```sh
+```bash
+# 依存関係のインストール
 uv sync
 ```
 
-パッケージを追加する場合は、以下のように `uv add` コマンドを使用してください。
+### 2. 基本分析を実行
 
-```sh
-# requests を追加
-uv add requests
-
-# 開発環境のみに追加
-uv add --dev types-requests
-
-# アップデート
-uv add --upgrade requests
+```bash
+# コマンドライン版（統計レポート + 静的グラフ生成）
+uv run python -m src.household_analyzer_en
 ```
 
-### 3. スクリプトの実行
+### 3. インタラクティブダッシュボードを起動
 
-以下のように、`uv run python -m` コマンドを使用して、スクリプトを実行できます。
-
-```sh
-uv run python -m src.hello
+```bash
+# Webダッシュボード
+uv run streamlit run src/household_dashboard.py
 ```
 
-## コード品質管理
+ブラウザで `http://localhost:8501` にアクセスしてダッシュボードを操作できます。
 
-このプロジェクトでは、以下のツールを使用してコード品質を管理しています。
+## 📁 ファイル構成
 
-### リンティング・フォーマット
+```
+src/
+├── household_analyzer_en.py    # メイン分析プログラム
+├── household_dashboard.py      # Streamlitダッシュボード
+└── hello.py                   # サンプルファイル
 
-```sh
+data/
+└── household_budget.csv       # サンプル家計簿データ
+```
+
+## 📊 データ形式
+
+CSVファイルは以下の形式で作成してください：
+
+```csv
+日付,カテゴリ,項目,収入,支出
+2024-01-01,収入,給料,300000,0
+2024-01-02,食費,スーパー,0,5000
+2024-01-03,交通費,電車,0,1200
+```
+
+### カラム説明
+
+- **日付**: YYYY-MM-DD形式
+- **カテゴリ**: 収入、食費、光熱費、交通費、娯楽、日用品、医療費など
+- **項目**: 具体的な内容（給料、スーパー、電車など）
+- **収入**: 収入金額（支出の場合は0）
+- **支出**: 支出金額（収入の場合は0）
+
+## 🎨 生成されるグラフ
+
+### コマンドライン版
+実行すると以下のPNGファイルが生成されます：
+
+- `monthly_trend_en.png` - 月別収支トレンド
+- `category_pie_en.png` - カテゴリ別円グラフ
+- `category_bar_en.png` - カテゴリ別棒グラフ
+- `daily_spending_en.png` - 日別支出トレンド
+
+### ダッシュボード版
+インタラクティブな機能：
+
+- 📅 **期間フィルター**: 特定期間のデータを表示
+- 🏷️ **カテゴリフィルター**: 特定カテゴリのみ表示
+- 📋 **データテーブル**: 生データの確認
+- 📊 **詳細統計**: 月別・カテゴリ別サマリー
+
+## 💡 使用例
+
+### 自分の家計簿データを使う場合
+
+1. `data/household_budget.csv` を自分のデータに置き換え
+2. 上記のデータ形式に合わせてCSVを作成
+3. プログラムを実行
+
+### カテゴリをカスタマイズしたい場合
+
+`src/household_analyzer_en.py` の `category_map` を編集：
+
+```python
+category_map = {
+    '収入': 'Income',
+    '食費': 'Food', 
+    '光熱費': 'Utilities',
+    '新カテゴリ': 'New Category'  # 追加
+}
+```
+
+## 🛠️ 技術スタック
+
+- **Python 3.13+**: プログラミング言語
+- **uv**: パッケージマネージャー
+- **pandas**: データ処理
+- **matplotlib**: 静的グラフ生成
+- **plotly**: インタラクティブグラフ
+- **streamlit**: Webダッシュボード
+
+## 📖 開発環境
+
+### コード品質管理
+
+```bash
 # コードのフォーマット
 uv run ruff format
 
 # リントチェック
 uv run ruff check
 
-# 自動修正
-uv run ruff check --fix
-```
-
-### 型チェック
-
-```sh
-# 型チェック実行
+# 型チェック
 uv run mypy src/
 ```
 
-### テスト実行
+### Vibe Coding対応
 
-```sh
-# テスト実行
-uv run pytest
-```
+このプロジェクトは AI コーディングアシスタントによる開発支援に対応：
 
-### 一括品質チェック
+- **Cursor**: `.cursor/rules/` でコーディング規約を設定
+- **Claude Code**: `CLAUDE.md` でプロジェクト情報を管理
 
-```sh
-# すべてのチェックを一括実行
-uv run ruff check && uv run ruff format && uv run mypy src/
-```
+## 🤝 コントリビューション
 
-## Vibe Coding
+プルリクエストや Issue の報告を歓迎します！
 
-このプロジェクトは AI コーディングアシスタントによる開発支援に対応しています：
+---
 
-### Cursor 対応
-
-参考 URL: <https://docs.cursor.com/context/rules>
-
-- `.cursor/rules/` ディレクトリに、プロジェクト固有のコーディング規約を設定
-- Python 学習者向けの最適化されたコード生成ルールを適用
-- 科学計算ライブラリの使用パターンを自動的に適用
-
-### Claude Code 対応
-
-参考 URL: <https://docs.anthropic.com/ja/docs/claude-code/overview>
-
-- `CLAUDE.md` ファイルにプロジェクト情報とコマンドを記載
-- 開発ワークフローと環境設定の詳細を提供
+**Made with ❤️ for [ハイスクールPython](https://high-school-python.jp)**
